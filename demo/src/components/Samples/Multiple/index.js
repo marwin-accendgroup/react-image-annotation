@@ -3,7 +3,8 @@ import Annotation from '../../../../../src'
 import {
   PointSelector,
   RectangleSelector,
-  OvalSelector
+  OvalSelector,
+  PolygonSelector
 } from '../../../../../src/selectors'
 
 import Button from '../../Button'
@@ -15,7 +16,7 @@ export default class Multiple extends Component {
   state = {
     type: RectangleSelector.TYPE,
     annotations: mocks.annotations,
-    annotation: {}
+    annotation: {},
   }
 
   onChange = (annotation) => {
@@ -43,8 +44,7 @@ export default class Multiple extends Component {
       type: e.currentTarget.innerHTML
     })
   }
-
-  render () {
+  render(){
     return (
       <div>
         <Button
@@ -66,12 +66,17 @@ export default class Multiple extends Component {
           {OvalSelector.TYPE}
         </Button>
 
+        <Button
+          onClick={this.onChangeType}
+          active={PolygonSelector.TYPE === this.state.type}
+        >
+          {PolygonSelector.TYPE}
+        </Button>
+        
         <Annotation
           src={img}
           alt='Two pebbles anthropomorphized holding hands'
-
           annotations={this.state.annotations}
-
           type={this.state.type}
           value={this.state.annotation}
           onChange={this.onChange}
@@ -81,3 +86,4 @@ export default class Multiple extends Component {
     )
   }
 }
+
