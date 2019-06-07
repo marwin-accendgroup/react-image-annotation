@@ -2,19 +2,20 @@ import React from 'react'
 
 import Point from './Point'
 import Editor from './Editor'
-import PolygonControls from './PolygonControls'
 import FancyRectangle from './FancyRectangle'
 import Rectangle from './Rectangle'
 import Oval from './Oval'
-import Polygon from './Polygon'
+import Lines from './Lines'
 import Content from './Content'
 import Overlay from './Overlay'
+import Arrow from './Arrow'
 
 import {
   RectangleSelector,
   PointSelector,
   OvalSelector,
-  PolygonSelector
+  LineSelector,
+  ArrowSelector
 } from '../selectors'
 
 export default {
@@ -26,7 +27,8 @@ export default {
     RectangleSelector,
     PointSelector,
     OvalSelector,
-    PolygonSelector
+    LineSelector,
+    ArrowSelector
   ],
   disableAnnotation: false,
   disableSelector: false,
@@ -54,9 +56,15 @@ export default {
             annotation={annotation}
           />
         )
-      case PolygonSelector.TYPE:
+      case LineSelector.TYPE:
         return (
-          <Polygon
+          <Lines
+            annotation={annotation}
+          />
+        )
+      case ArrowSelector.TYPE:
+        return (
+          <Arrow
             annotation={annotation}
           />
         )
@@ -69,15 +77,6 @@ export default {
       annotation={annotation}
       onChange={onChange}
       onSubmit={onSubmit}
-      imageZoomAmount={imageZoomAmount}
-    />
-  ),
-  renderPolygonControls: ({ annotation, onSelectionComplete, onSelectionClear, onSelectionUndo, imageZoomAmount }) => (
-    <PolygonControls
-      annotation={annotation}
-      onSelectionComplete={onSelectionComplete}
-      onSelectionClear={onSelectionClear}
-      onSelectionUndo={onSelectionUndo}
       imageZoomAmount={imageZoomAmount}
     />
   ),
@@ -107,9 +106,17 @@ export default {
             active={active}
           />
         )
-      case PolygonSelector.TYPE:
+      case LineSelector.TYPE:
         return (
-          <Polygon
+          <Lines
+            key={key}
+            annotation={annotation}
+            active={active}
+          />
+        )
+      case ArrowSelector.TYPE:
+        return (
+          <Arrow
             key={key}
             annotation={annotation}
             active={active}
@@ -132,12 +139,6 @@ export default {
         return (
           <Overlay>
             Click to Annotate
-          </Overlay>
-        )
-      case PolygonSelector.TYPE:
-        return (
-          <Overlay>
-            Click to Add Points to Annotation
           </Overlay>
         )
       default:

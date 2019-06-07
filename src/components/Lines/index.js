@@ -1,10 +1,9 @@
 import React from 'react'
 import LineTo from 'react-lineto'
 import styled from 'styled-components'
-import './index.css'
 
 const PointDot = styled.div`
-  background: black;
+  background: #000000;
   border-radius: 1px;
   width: 2px;
   height: 2px;
@@ -12,28 +11,18 @@ const PointDot = styled.div`
   margin-top: -1px;
   position: absolute;
 `
+const Container = styled.div`
+  box-shadow: 0px 0px 1px 1px white inset;
+  box-sizing: border-box;
+  transition: box-shadow 0.21s ease-in-out;
+`
 
-function edgesFromPoints(points) {
-  if (!points || points.length < 3) return [];
-
-  const edges = []
-  for (let i = 0; i < points.length; ++i) {
-    if (i + 1 === points.length) {
-      edges.push(Math.hypot(points[0].x-points[i].x, points[0].y-points[i].y))
-    } else {
-      edges.push(Math.hypot(points[i + 1].x-points[i].x, points[i + 1].y-points[i].y))
-    }
-  }
-
-  return edges;
-}
-
-function Polygon (props) {
+function Lines (props) {
   const { geometry } = props.annotation
   if (!geometry || !geometry.points || geometry.points.length === 0) return null
 
   return (
-    <div
+    <Container
       className={`linesContainer ${props.className}`}
       style={{
         width: '100%',
@@ -41,31 +30,32 @@ function Polygon (props) {
         ...props.style
       }}
     >
-      {(geometry.points.length >= 2) && geometry.points.map((item,i) => { // Iterate over points to create the edge lines
+      {(geometry.points.length == 2) && geometry.points.map((item,i) => { // Iterate over points to create the edge lines
         let prevItem
-        if (i === 0) { // First point (links from last to first)
+        if (i === 0) { 
           prevItem = geometry.points[geometry.points.length - 1]
-        } else {
+        }
+        else if( i === 1){
           prevItem = geometry.points[i - 1]
         }
+        else{
+          return this.state.onSelectionClear
+        }
         return (
-          // Note that each LineTo element must have a unique key (unique relative to the connected points)
-          <LineTo
+           <LineTo
             key={i + "_" + item.x + "_" + item.y + "_" + prevItem.x + "_" + prevItem.y}
             from="linesContainer"
             fromAnchor={item.x + "% " + item.y + "%"}
             to="linesContainer"
             toAnchor={prevItem.x + "% " + prevItem.y + "%"}
-            borderColor={'white'}
+            borderColor={'#000000'}
             borderStyle={'dashed'}
             borderWidth={2}
-            className={(!props.active) ? "Polygon-LineTo" : "Polygon-LineToActive"}
           />
         )
       })}
-      {geometry.points.map((item,i) => { // Iterate over points to points
+      {geometry.points.map((item,i) => {
         return (
-          // Note that each LineTo element must have a unique key (unique relative to the point)
           <PointDot
             key={i + "_" + item.x + "_" + item.y}
             style={{
@@ -75,13 +65,13 @@ function Polygon (props) {
           />
         )
       })}
-    </div>
+    </Container>
   )
 }
 
-Polygon.defaultProps = {
+Lines.defaultProps = {
   className: '',
   style: {}
 }
 
-export default Polygon
+export default Lines

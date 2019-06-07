@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { getHorizontallyCentralPoint, getVerticallyLowestPoint } from '../../utils/pointsUtils'
-import { PolygonSelector } from '../../selectors'
+import { LineSelector, ArrowSelector } from '../../selectors'
 
 const Container = styled.div`
   background: white;
@@ -20,15 +20,12 @@ const Container = styled.div`
 function Content (props) {
   const { geometry } = props.annotation
   if (!geometry) return null
-
-  const zoomBetweenZeroAndOne = Math.abs(((props.imageZoomAmount - 1) / 4) - 1);
-
   return (
     <div
       style={{
         position: 'absolute',
-        left: ((geometry.type === PolygonSelector.TYPE) ? `${getHorizontallyCentralPoint(geometry.points)}%` : `${geometry.x}%`),
-        top: ((geometry.type === PolygonSelector.TYPE) ? `${getVerticallyLowestPoint(geometry.points)}%` : `${geometry.y + geometry.height}%`),
+        left: ((geometry.type === LineSelector.TYPE || geometry.type === ArrowSelector.TYPE) ? `${getHorizontallyCentralPoint(geometry.points)}%` : `${geometry.x}%`),
+        top: ((geometry.type === LineSelector.TYPE || geometry.type === ArrowSelector.TYPE) ? `${getVerticallyLowestPoint(geometry.points)}%` : `${geometry.y + geometry.height}%`),
         zIndex: 999,
         ...props.style
       }}
@@ -36,15 +33,16 @@ function Content (props) {
       geometry={geometry}
     >
       <Container
-        style={{fontSize: (((1 / 5) + (zoomBetweenZeroAndOne * (4 / 5))) + 'rem'), padding: ((((1 / 5) * 8) + ((4 / 5) * 8 * zoomBetweenZeroAndOne)) + 'px ' + (((1 / 5) * 16) + ((4 / 5) * 16 * zoomBetweenZeroAndOne)) + 'px')}}
+        style={{
+          fontSize: '15px',
+          padding: '5px 10px'
+        }}
       >
-        {props.annotation.data && props.annotation.data.age}
         {props.annotation.data && props.annotation.data.text}
-        {props.annotation.data && props.annotation.data.renovationType}
       </Container>
     </div>
   )
-}
+} 
 
 Content.defaultProps = {
   style: {},

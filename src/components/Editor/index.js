@@ -2,7 +2,7 @@ import React from 'react'
 import styled, { keyframes } from 'styled-components'
 import TextEditor from '../TextEditor'
 import { getHorizontallyCentralPoint, getVerticallyLowestPoint } from '../../utils/pointsUtils'
-import { PolygonSelector } from '../../selectors'
+import {LineSelector, ArrowSelector} from '../../selectors'
 
 const fadeInScale = keyframes`
   from {
@@ -15,7 +15,6 @@ const fadeInScale = keyframes`
     transform: scale(1);
   }
 `
-
 const Container = styled.div`
   background: white;
   border-radius: 2px;
@@ -40,39 +39,24 @@ function Editor (props) {
       className={props.className}
       style={{
         position: 'absolute',
-        left: ((geometry.type === PolygonSelector.TYPE) ? `${getHorizontallyCentralPoint(geometry.points)}%` : `${geometry.x}%`),
-        top: ((geometry.type === PolygonSelector.TYPE) ? `${getVerticallyLowestPoint(geometry.points)}%` : `${geometry.y + geometry.height}%`),
+        left: ((geometry.type === LineSelector.TYPE  || geometry.type === ArrowSelector.TYPE) ? `${getHorizontallyCentralPoint(geometry.points)}%` : `${geometry.x}%`),
+        top: ((geometry.type === LineSelector.TYPE  || geometry.type === ArrowSelector.TYPE) ? `${getVerticallyLowestPoint(geometry.points)}%` : `${geometry.y + geometry.height}%`),
         zIndex: 999,
         ...props.style
       }}
     >
       <Container>
-        {(geometry.type === PolygonSelector.TYPE) &&
-          <TextEditor
-            onChange={e => props.onChange({
-              ...props.annotation,
-              data: {
-                ...props.annotation.data,
-                text: e.target.value
-              }
-            })}
-            onSubmit={props.onSubmit}
-            value={props.annotation.data && props.annotation.data.text}
-            />
-        }
-        {(geometry.type !== PolygonSelector.TYPE) &&
-          <TextEditor
-            onChange={e => props.onChange({
-              ...props.annotation,
-              data: {
-                ...props.annotation.data,
-                text: e.target.value
-              }
-            })}
-            onSubmit={props.onSubmit}
-            value={props.annotation.data && props.annotation.data.text}
+        <TextEditor
+          onChange={e => props.onChange({
+            ...props.annotation,
+            data: {
+              ...props.annotation.data,
+              text: e.target.value
+            }
+          })}
+          onSubmit={props.onSubmit}
+          value={props.annotation.data && props.annotation.data.text}
           />
-        }
       </Container>
     </div>
   )

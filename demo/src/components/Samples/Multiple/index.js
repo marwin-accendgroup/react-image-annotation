@@ -4,7 +4,8 @@ import {
   PointSelector,
   RectangleSelector,
   OvalSelector,
-  PolygonSelector
+  LineSelector,
+  ArrowSelector
 } from '../../../../../src/selectors'
 
 import Button from '../../Button'
@@ -68,11 +69,17 @@ export default class Multiple extends Component {
 
         <Button
           onClick={this.onChangeType}
-          active={PolygonSelector.TYPE === this.state.type}
+          active={LineSelector.TYPE === this.state.type}
         >
-          {PolygonSelector.TYPE}
+          {LineSelector.TYPE}
         </Button>
-        
+        <Button
+          onClick={this.onChangeType}
+          active={ArrowSelector.TYPE === this.state.type}
+        >
+          {ArrowSelector.TYPE}
+        </Button>
+
         <Annotation
           src={img}
           alt='Two pebbles anthropomorphized holding hands'
@@ -82,6 +89,7 @@ export default class Multiple extends Component {
           onChange={this.onChange}
           onSubmit={this.onSubmit}
         />
+         
       </div>
     )
   }

@@ -1,4 +1,5 @@
 export { default as RectangleSelector } from './hocs/RectangleSelector'
 export { default as PointSelector } from './hocs/PointSelector'
 export { default as OvalSelector } from './hocs/OvalSelector'
-export { default as PolygonSelector } from './hocs/PolygonSelector'
+export { default as LineSelector } from './hocs/LineSelector'
+export { default as ArrowSelector } from './hocs/ArrowSelector'
