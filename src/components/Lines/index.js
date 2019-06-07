@@ -35,11 +35,8 @@ function Lines (props) {
         if (i === 0) { 
           prevItem = geometry.points[geometry.points.length - 1]
         }
-        else if( i === 1){
-          prevItem = geometry.points[i - 1]
-        }
         else{
-          return this.state.onSelectionClear
+          prevItem = geometry.points[i - 1]
         }
         return (
            <LineTo
