@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { getHorizontallyCentralPoint, getVerticallyLowestPoint } from '../../utils/pointsUtils'
+import { getPreviousX, getPreviousY } from '../../utils/pointsUtils'
 import { LineSelector, ArrowSelector } from '../../selectors'
 
 const Container = styled.div`
@@ -24,8 +24,8 @@ function Content (props) {
     <div
       style={{
         position: 'absolute',
-        left: ((geometry.type === LineSelector.TYPE || geometry.type === ArrowSelector.TYPE) ? `${getHorizontallyCentralPoint(geometry.points)}%` : `${geometry.x}%`),
-        top: ((geometry.type === LineSelector.TYPE || geometry.type === ArrowSelector.TYPE) ? `${getVerticallyLowestPoint(geometry.points)}%` : `${geometry.y + geometry.height}%`),
+        left: ((geometry.type === LineSelector.TYPE || geometry.type === ArrowSelector.TYPE) ? `${getPreviousX(geometry.points)}%` : `${geometry.x}%`),
+        top: ((geometry.type === LineSelector.TYPE || geometry.type === ArrowSelector.TYPE) ? `${getPreviousY(geometry.points)}%` : `${geometry.y + geometry.height}%`),
         zIndex: 999,
         ...props.style
       }}
