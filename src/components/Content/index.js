@@ -1,6 +1,5 @@
 import React from 'react'
 import styled from 'styled-components'
-import { getPreviousX, getPreviousY } from '../../utils/pointsUtils'
 import { LineSelector, ArrowSelector } from '../../selectors'
 
 const Container = styled.div`
@@ -14,7 +13,6 @@ const Container = styled.div`
   margin-top: 8px;
   margin-left: -50%;
   margin-right: 50%;
-  color: #363636!important;
 `
 
 function Content (props) {
@@ -24,9 +22,9 @@ function Content (props) {
     <div
       style={{
         position: 'absolute',
-        left: ((geometry.type === LineSelector.TYPE || geometry.type === ArrowSelector.TYPE) ? `${getPreviousX(geometry.points)}%` : `${geometry.x}%`),
-        top: ((geometry.type === LineSelector.TYPE || geometry.type === ArrowSelector.TYPE) ? `${getPreviousY(geometry.points)}%` : `${geometry.y + geometry.height}%`),
-        zIndex: 999,
+        left: ((geometry.type === LineSelector.TYPE || geometry.type === ArrowSelector.TYPE) ? `${geometry.points.reduce((prev) => (prev.x))}%` : `${geometry.x}%`),
+        top: ((geometry.type === LineSelector.TYPE || geometry.type === ArrowSelector.TYPE) ? `${geometry.points.reduce((prev) => (prev.y))}%` : `${geometry.y + geometry.height}%`),
+        zIndex: 10,
         ...props.style
       }}
       className={props.className}
@@ -34,6 +32,7 @@ function Content (props) {
     >
       <Container
         style={{
+          color: '#FF0000',
           fontSize: '15px',
           padding: '5px 10px'
         }}

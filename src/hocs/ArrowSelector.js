@@ -17,17 +17,16 @@ export const methods = {
 
   onMouseDown(annotation, e) {
     if (!annotation.selection) {
-      const coordOfClick = getCoordPercentage(e)
-      console.log(coordOfClick)
+      const coordinates = getCoordPercentage(e)
       
       return {
         ...annotation,
         geometry: {
           ...annotation.geometry,
           type: TYPE,
-          points: (!annotation.geometry ? [coordOfClick] : [
+          points: (!annotation.geometry ? [coordinates] : [
             ...annotation.geometry.points,
-            coordOfClick
+            coordinates
           ])
         },
         selection: {
@@ -40,8 +39,8 @@ export const methods = {
     }
   },
   onMouseUp (annotation, e) {
-    const coordOfClick = getCoordPercentage(e)
-    console.log(coordOfClick)
+    const coordinates = getCoordPercentage(e)
+
     if (annotation.selection) {
       const { selection, geometry } = annotation
 
@@ -56,9 +55,9 @@ export const methods = {
             geometry: {
               ...annotation.geometry,
               type: TYPE,
-              points: (!annotation.geometry ? [coordOfClick] : [
+              points: (!annotation.geometry ? [coordinates] : [
                 ...annotation.geometry.points,
-                coordOfClick
+                coordinates
               ])
             },
             selection: {

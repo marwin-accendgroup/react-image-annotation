@@ -1,7 +1,6 @@
 import React from 'react'
 import styled, { keyframes } from 'styled-components'
 import TextEditor from '../TextEditor'
-import { getPreviousX, getPreviousY } from '../../utils/pointsUtils'
 import {LineSelector, ArrowSelector} from '../../selectors'
 
 const fadeInScale = keyframes`
@@ -39,9 +38,9 @@ function Editor (props) {
       className={props.className}
       style={{
         position: 'absolute',
-        left: ((geometry.type === LineSelector.TYPE  || geometry.type === ArrowSelector.TYPE) ? `${getPreviousX(geometry.points)}%` : `${geometry.x}%`),
-        top: ((geometry.type === LineSelector.TYPE  || geometry.type === ArrowSelector.TYPE) ? `${getPreviousY(geometry.points)}%` : `${geometry.y + geometry.height}%`),
-        zIndex: 999,
+        left: ((geometry.type === LineSelector.TYPE || geometry.type === ArrowSelector.TYPE) ? `${geometry.points.reduce((prev) => (prev.x))}%` : `${geometry.x}%`),
+        top: ((geometry.type === LineSelector.TYPE || geometry.type === ArrowSelector.TYPE) ? `${geometry.points.reduce((prev) => (prev.y))}%` : `${geometry.y + geometry.height}%`),
+        zIndex: 10,
         ...props.style
       }}
     >
