@@ -42,10 +42,7 @@ export default compose(
     onMouseDown: T.func,
     onMouseMove: T.func,
     onClick: T.func,
-    imageZoomAmount: T.number,
-    onClickCheckFunc: T.func,
-    onSelectionComplete: T.func,
-    onSelectionClear: T.func,
+    children: T.object,
 
     annotations: T.arrayOf(
       T.shape({
@@ -85,28 +82,10 @@ export default compose(
     renderContent: T.func.isRequired,
 
     disableOverlay: T.bool,
-    renderOverlay: T.func.isRequired,
+    renderOverlay: T.func.isRequired
   }
 
   static defaultProps = defaultProps
-
-  componentDidMount = () => {
-    window.addEventListener("resize", this.forceUpdateComponent);
-  }
-
-  componentWillUnmount = () => {
-    window.removeEventListener("resize", this.forceUpdateComponent);
-  }
-
-  forceUpdateComponent = () => {
-    this.forceUpdate();
-  }
-
-  componentDidUpdate = prevProps => {
-     if (prevProps.imageZoomAmount !== this.props.imageZoomAmount) {
-       this.forceUpdateComponent();
-     }
-   }
 
   setInnerRef = (el) => {
     this.container = el
@@ -156,17 +135,8 @@ export default compose(
   onMouseUp = (e) => this.callSelectorMethod('onMouseUp', e)
   onMouseDown = (e) => this.callSelectorMethod('onMouseDown', e)
   onMouseMove = (e) => this.callSelectorMethod('onMouseMove', e)
-  onClick = (e) => {
-    const { onClickCheckFunc } = this.props;
+  onClick = (e) => this.callSelectorMethod('onClick', e)
 
-    if (!onClickCheckFunc || onClickCheckFunc(e)) {
-      return this.callSelectorMethod('onClick', e)
-    }
-    return;
-  }
-  onSelectionComplete = () => this.callSelectorMethod('onSelectionComplete')
-  onSelectionClear = () => this.callSelectorMethod('onSelectionClear')
-  
   onSubmit = () => {
     this.props.onSubmit(this.props.value)
   }
@@ -271,13 +241,11 @@ export default compose(
           })
         )}
         {props.annotations.map(annotation => (
-          //cant use this cause line dont have area
           // this.shouldAnnotationBeActive(annotation, topAnnotationAtMouse)
           // && (
             renderContent({
               key: annotation.data.id,
-              annotation: annotation,
-              imageZoomAmount: props.imageZoomAmount
+              annotation: annotation
             })
           // )
         ))}
@@ -289,11 +257,11 @@ export default compose(
             renderEditor({
               annotation: props.value,
               onChange: props.onChange,
-              onSubmit: this.onSubmit,
-              imageZoomAmount: props.imageZoomAmount
+              onSubmit: this.onSubmit
             })
           )
         }
+        <div>{props.children}</div>
       </Container>
     )
   }

@@ -6,13 +6,15 @@ const getCoordPercentage = (e) => ({
 export const TYPE = 'LINE'
 
 export function intersects ({ x, y }, geometry) {
-  
-  return 0
+  if (!geometry || !geometry.points || geometry.points.lenght < 1 ) return false
+
+  return geometry.points.map(point => [point.x, point.y])
 }
 
 export function area (geometry) {
+  if (!geometry || !geometry.points || geometry.points.length < 1) return 0
 
-  return 0
+  return geometry.points.map(point => [point.x, point.y])
 }
 
 export const methods = {
@@ -71,7 +73,6 @@ export const methods = {
           break
       }
     }
-
     return annotation
   },
 }
