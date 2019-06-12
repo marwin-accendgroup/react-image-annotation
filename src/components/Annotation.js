@@ -86,7 +86,6 @@ export default compose(
 
     disableOverlay: T.bool,
     renderOverlay: T.func.isRequired,
-    // renderLineControls: T.func.isRequired
   }
 
   static defaultProps = defaultProps
@@ -220,7 +219,6 @@ export default compose(
       renderSelector,
       renderEditor,
       renderOverlay
-      // renderLineControls
     } = props
 
     const topAnnotationAtMouse = this.getTopAnnotationAt(

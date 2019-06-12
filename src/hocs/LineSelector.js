@@ -6,11 +6,13 @@ const getCoordPercentage = (e) => ({
 export const TYPE = 'LINE'
 
 export function intersects ({ x, y }, geometry) {
+  
   return 0
 }
 
 export function area (geometry) {
-  return 2
+
+  return 0
 }
 
 export const methods = {
@@ -18,7 +20,7 @@ export const methods = {
   onMouseDown(annotation, e) {
     if (!annotation.selection) {
       const coordinates = getCoordPercentage(e)
-      
+
       return {
         ...annotation,
         geometry: {
@@ -41,7 +43,7 @@ export const methods = {
   onMouseUp (annotation, e) {
     const coordinates = getCoordPercentage(e)
     if (annotation.selection) {
-      const { selection, geometry } = annotation
+      const {geometry } = annotation
 
       if (!geometry) {
         return {}
