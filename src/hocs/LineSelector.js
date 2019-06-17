@@ -2,26 +2,28 @@ const getCoordPercentage = (e) => ({
   x: e.nativeEvent.offsetX / e.currentTarget.offsetWidth * 100,
   y: e.nativeEvent.offsetY / e.currentTarget.offsetHeight * 100
 })
+let temp = {}
 
 export const TYPE = 'LINE'
 
 export function intersects ({ x, y }, geometry) {
-  if (!geometry || !geometry.points || geometry.points.lenght < 1 ) return false
+  if (!geometry || !geometry.points || geometry.points.lenght <= 1 ) return false
 
   return geometry.points.map(point => [point.x, point.y])
 }
 
 export function area (geometry) {
-  if (!geometry || !geometry.points || geometry.points.length < 1) return 0
+  if (!geometry || !geometry.points || geometry.points.length <= 1) return 0
 
   return geometry.points.map(point => [point.x, point.y])
 }
 
 export const methods = {
-
+  
   onMouseDown(annotation, e) {
     if (!annotation.selection) {
       const coordinates = getCoordPercentage(e)
+      temp = coordinates
 
       return {
         ...annotation,
@@ -44,12 +46,16 @@ export const methods = {
   },
   onMouseUp (annotation, e) {
     const coordinates = getCoordPercentage(e)
-    if (annotation.selection) {
+    
+    if( Math.floor(temp.x) === Math.floor(coordinates.x) && Math.floor(temp.y) === Math.floor(coordinates.y)){
+      return {}
+    }
+    else if (annotation.selection) {
       const {geometry } = annotation
-
       if (!geometry) {
         return {}
       }
+      
 
       switch (annotation.selection.mode) {
         case 'SELECTING':

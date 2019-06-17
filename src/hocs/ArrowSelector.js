@@ -2,6 +2,7 @@ const getCoordPercentage = (e) => ({
   x: e.nativeEvent.offsetX / e.currentTarget.offsetWidth * 100,
   y: e.nativeEvent.offsetY / e.currentTarget.offsetHeight * 100
 })
+let temp = {}
 
 export const TYPE = 'ARROW'
 
@@ -22,7 +23,7 @@ export const methods = {
   onMouseDown(annotation, e) {
     if (!annotation.selection) {
       const coordinates = getCoordPercentage(e)
-      
+      temp = coordinates
       return {
         ...annotation,
         geometry: {
@@ -45,6 +46,9 @@ export const methods = {
   onMouseUp (annotation, e) {
     const coordinates = getCoordPercentage(e)
 
+    if( Math.floor(temp.x) === Math.floor(coordinates.x) && Math.floor(temp.y) === Math.floor(coordinates.y)){
+      return {}
+    }
     if (annotation.selection) {
       const { selection, geometry } = annotation
 

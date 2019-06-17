@@ -144,7 +144,7 @@ function Arrow (props) {
         else{
           prevItem = geometry.points[i - 1]
         }
-
+        
         if(i===0){
           return (
             <PointDot

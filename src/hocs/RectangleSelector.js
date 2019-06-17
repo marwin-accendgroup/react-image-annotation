@@ -48,6 +48,9 @@ export const methods = {
       if (!geometry) {
         return {}
       }
+      if(geometry.height <= 5 && geometry.width <= 5){
+        return {}
+      }
 
       switch (annotation.selection.mode) {
         case 'SELECTING':
